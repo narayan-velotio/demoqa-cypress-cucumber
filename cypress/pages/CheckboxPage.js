@@ -72,39 +72,23 @@ class CheckboxPage {
 
     selectCheckbox(item) {
         const displayText = this.getDisplayText(item);
-        
-        // If it's Excel File, first expand Downloads
-        if (item === 'Excel File') {
-            this.expandSection('Downloads');
-            
-            // Select parent items if needed
-            const parents = this.itemHierarchy[displayText] || [];
-            parents.forEach(parent => {
-                cy.get('.rct-node')
-                    .contains('span.rct-title', parent)
-                    .parents('.rct-node')
-                    .first()
-                    .find('.rct-checkbox')
-                    .first()
-                    .then($checkbox => {
-                        // Check if the checkbox is not already selected
-                        if (!$checkbox.hasClass('rct-icon-check')) {
-                            cy.wrap($checkbox).click();
-                        }
-                    });
-            });
-        }
-
+    
+        // Expand all parent nodes if defined in hierarchy
+        const parents = this.itemHierarchy[displayText] || [];
+        parents.forEach(parent => {
+            this.expandSection(parent);
+        });
+    
         // Wait for expansion animation
         cy.wait(500);
-
+    
         // Now select the checkbox
         cy.get('.rct-node')
             .contains('span.rct-title', displayText)
             .parents('.rct-node')
-            .first()  // Take only the first matching node
+            .first()
             .find('.rct-checkbox')
-            .first()  // Take only the first checkbox
+            .first()
             .click();
     }
 

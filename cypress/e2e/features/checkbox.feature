@@ -21,8 +21,8 @@ Feature: Checkbox Functionality
       | classified   |
       | general      |
       | downloads    |
-      | Word File    |
-      | Excel File   |
+      | wordFile     |
+      | excelFile    |
 
   Scenario: Unselect downloads and verify message
     Given I navigate to the Checkbox page

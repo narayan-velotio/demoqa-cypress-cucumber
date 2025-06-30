@@ -1,8 +1,7 @@
 import { Given, Then, After } from '@badeball/cypress-cucumber-preprocessor';
 
 Given('I navigate to the DemoQA homepage', () => {
-    // cy.visit('https://demoqa.com/');
-    cy.visit()
+    cy.visit('https://demoqa.com/');
 });
 
 Then('I should see the category cards section', () => {

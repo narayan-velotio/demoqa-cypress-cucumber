@@ -22,7 +22,6 @@ When('I select {string} checkbox', (item) => {
 });
 
 When('I unselect {string} checkbox', (item) => {
-    cy.pause();
     CheckboxPage.unselectCheckbox(item);
 });
 
