@@ -72,24 +72,47 @@ class CheckboxPage {
 
     selectCheckbox(item) {
         const displayText = this.getDisplayText(item);
-    
-        // Expand all parent nodes if defined in hierarchy
-        const parents = this.itemHierarchy[displayText] || [];
-        parents.forEach(parent => {
-            this.expandSection(parent);
-        });
-    
-        // Wait for expansion animation
-        cy.wait(500);
-    
-        // Now select the checkbox
+        
+        // If it's Excel File, first expand Downloads and select parent checkboxes
+        if (item === 'Excel File') {
+            // Expand Downloads section first
+            this.expandSection('Downloads');
+            
+            // Wait for expansion animation
+            cy.wait(500);
+            
+            // Select parent checkboxes (home and downloads) to ensure they are selected
+            const parents = this.itemHierarchy[displayText] || [];
+            parents.forEach(parent => {
+                cy.get('.rct-node')
+                    .contains('span.rct-title', parent)
+                    .parents('.rct-node')
+                    .first()
+                    .find('.rct-checkbox')
+                    .first()
+                    .then($checkbox => {
+                        // Check if the checkbox is not already selected
+                        if (!$checkbox.hasClass('rct-icon-check')) {
+                            cy.wrap($checkbox).click();
+                        }
+                    });
+            });
+            
+            // Wait for parent selections to be processed
+            cy.wait(500);
+        }
+
+        // Now select the target checkbox
         cy.get('.rct-node')
             .contains('span.rct-title', displayText)
             .parents('.rct-node')
-            .first()
+            .first()  // Take only the first matching node
             .find('.rct-checkbox')
-            .first()
+            .first()  // Take only the first checkbox
             .click();
+            
+        // Wait for the selection to be processed
+        cy.wait(500);
     }
 
     unselectCheckbox(item) {

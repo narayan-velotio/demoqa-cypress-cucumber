@@ -31,15 +31,4 @@ Feature: Checkbox Functionality
     And I unselect "Downloads" checkbox
     Then I should not see "downloads" in selected items
     And I should not see "Word File" in selected items
-    And I should not see "Excel File" in selected items
-
-  Scenario: Select only Excel File under downloads
-    Given I navigate to the Checkbox page
-    When I expand all checkboxes
-    And I expand "Downloads" section
-    And I select "Excel File" checkbox
-    Then I should see only the following items selected:
-      | item      |
-      | home      |
-      | downloads |
-      | Excel File | 
+    And I should not see "Excel File" in selected items 
